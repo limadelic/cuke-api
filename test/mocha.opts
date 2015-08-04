@@ -1,0 +1,8 @@
+--compilers coffee:coffee-script/register
+--require coffee-script
+--require test/test-helper.coffee
+--require should
+--reporter nyan
+--recursive
+--colors
+-t 130000
