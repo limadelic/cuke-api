@@ -1,9 +1,11 @@
 should = require 'should'
 _ = require 'lodash'
 
+dotted = (x) -> x.replace /\s+/g, '.'
+
 exports.shouldExp = ({actual, matcher, expected}) ->
   expected ?= ''
-  "#{actual}.should.#{matcher.split(' ').join '.'}(#{expected});"
+  "#{dotted actual}.should.#{dotted matcher}(#{expected});"
 
 exports.any = any = (items, query) ->
   items = [items] unless _.isArray items

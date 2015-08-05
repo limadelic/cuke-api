@@ -31,8 +31,10 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "async": "^1.4.0",
     "lodash": "^3.9.3",
-    "should": "^7.0.1"
+    "should": "^7.0.1",
+    "superagent": "^1.2.0"
   },
   "devDependencies": {
     "cucumber": "latest",

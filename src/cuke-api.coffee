@@ -1,14 +1,14 @@
 http = require 'superagent'
 async = require 'async'
 
-table = require '../support/table'
-t = require '../support/tokens'
-{ shouldExp } = require '../support/matchers'
+require './support/globals'
+table = require './support/table'
+t = require './support/tokens'
+{ shouldExp } = require './support/matchers'
 
-module.exports = ->
+steps = ->
 
-  api = process.env.USG_API
-  url = (res) -> "http://#{api}/#{res}"
+  url = (res) -> "http://#{config.api}/#{res}"
 
   auth = (req) ->
     req.set 'Authorization', "Bearer #{@token or '53cr3t'}"
@@ -45,9 +45,17 @@ module.exports = ->
     postit = (x, done) -> post resource, x, done
     async.each objects, postit, done
 
-  @Then t.x("(#{t.text}) #{t.should}"), (actual, matcher) ->
-    eval shouldExp { actual, matcher }
+  @Then t.x("(#{t.text}) #{t.should} (#{t.arg})"), (actual, matcher, expected) ->
+    p shouldExp { actual, matcher, expected: 'expected' }
+
+#  @Then t.x("(#{t.text}) #{t.should}"), (actual, matcher) ->
+#    p shouldExp { actual, matcher }
+#    eval shouldExp { actual, matcher }
 
   @Then t.x("(#{t.text}) #{t.should}:"), (actual, matcher, expected) ->
     expected = table expected
     eval shouldExp { actual, matcher, expected: 'expected' }
+
+module.exports = (config={}) ->
+  _.merge global.config, config
+  steps
